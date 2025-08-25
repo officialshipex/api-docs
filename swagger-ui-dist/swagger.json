@@ -1,0 +1,2248 @@
+openapi: 3.0.3
+info:
+  title: ShipexIndia API Guide
+  version: 1.0.0
+  contact: {}
+servers:
+  - url: https://api.shipexindia.com
+paths:
+  /v1/api/external/createOrder:
+    post:
+      summary: OrderCreation
+      description: >-
+        **Endpoint:**  
+
+        `POST https://api.shipexindia.com/v1/api/external/createOrder`
+
+
+        **Description:**
+
+
+        This API is used to **create a new shipment order**. It requires sender
+        (pickup) details, receiver details, product information, package
+        dimensions, and payment details. A valid JWT token (from the Generate
+        Token API) must be passed in the request header.
+
+
+        **Headers:**
+
+
+        - `Content-Type: application/json`
+            
+        - `Authorization: Bearer`
+            
+
+        Response (Success 200):
+
+
+        {  
+
+        "success": true,  
+
+        "message": "Order created successfully.",  
+
+        "data": {  
+
+        "orderId": 566281,  
+
+        "clientOrderId": 8984810,  
+
+        "status": "new"  
+
+        }  
+
+        }
+
+
+        400 Bad Request
+
+
+        {  
+
+        "success": false,  
+
+        "message": "Validation error",  
+
+        "details": "Phone number must be exactly 10 digits"  
+
+        }
+
+
+        401 Unauthorized
+
+
+        {  
+
+        "success": false,  
+
+        "message": "Invalid or expired token"  
+
+        }
+      operationId: ordercreation
+      requestBody:
+        content:
+          application/json:
+            examples:
+              OrderCreation:
+                value: "{\r\n    \"shipmentId\":8984810,\r\n  \"pickupAddress\": {\r\n    \"contactName\": \"John Doe\",\r\n    \"email\": \"john@example.com\",\r\n    \"phoneNumber\": \"9876543201\",\r\n    \"address\": \"123 Main St\",\r\n    \"pinCode\": \"560002\",\r\n    \"city\": \"Bangalore\",\r\n    \"state\": \"Karnataka\"\r\n  },\r\n  \"receiverAddress\": {\r\n    \"contactName\": \"Jane Smith\",\r\n    \"email\": \"jane@example.com\",\r\n    \"phoneNumber\": \"9123456781\",\r\n    \"address\": \"456 Market Ave\",\r\n    \"pinCode\": \"400002\",\r\n    \"city\": \"Mumbai\",\r\n    \"state\": \"Maharashtra\"\r\n  },\r\n  \"productDetails\": [\r\n    {\r\n      \"id\": \"1\",\r\n      \"quantity\": 2,\r\n      \"name\": \"T-Shirt\",\r\n      \"sku\": \"TSHIRT123\",\r\n      \"unitPrice\": \"499\"\r\n    }\r\n  ],\r\n  \"packageDetails\": {\r\n    \"deadWeight\": 0.5,//\"KG\"\r\n    \"applicableWeight\": 0.6,//\"KG\"\r\n    \"volumetricWeight\": {\r\n      \"length\": 10,//\"cm\"\r\n      \"width\": 15,//\"cm\"\r\n      \"height\": 5,//\"cm\"\r\n      \"calculatedWeight\": 0.6//\"KG\"\r\n    }\r\n  },\r\n  \"paymentDetails\": {\r\n    \"method\": \"COD\",//[\"COD\",\"Prepaid\"]\r\n    \"amount\": 998\r\n  }\r\n}\r\n"
+      responses:
+        '201':
+          description: OrderCreation
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: '121'
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: >-
+                  default-src 'self';base-uri 'self';font-src 'self' https:
+                  data:;form-action 'self';frame-ancestors 'self';img-src 'self'
+                  data:;object-src 'none';script-src 'self';script-src-attr
+                  'none';style-src 'self' https:
+                  'unsafe-inline';upgrade-insecure-requests
+            Cross-Origin-Opener-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Cross-Origin-Resource-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Date:
+              schema:
+                type: string
+                example: Mon, 25 Aug 2025 13:06:35 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"79-66RKSwcCU6KqGolwteHMFQB77BY"
+            Origin-Agent-Cluster:
+              schema:
+                type: string
+                example: '?1'
+            Referrer-Policy:
+              schema:
+                type: string
+                example: no-referrer
+            Server:
+              schema:
+                type: string
+                example: nginx/1.26.3
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            X-DNS-Prefetch-Control:
+              schema:
+                type: string
+                example: 'off'
+            X-Download-Options:
+              schema:
+                type: string
+                example: noopen
+            X-Frame-Options:
+              schema:
+                type: string
+                example: SAMEORIGIN
+            X-Permitted-Cross-Domain-Policies:
+              schema:
+                type: string
+                example: none
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: '0'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      clientOrderId:
+                        type: number
+                        example: 8984810
+                      orderId:
+                        type: number
+                        example: 485888
+                      status:
+                        type: string
+                        example: new
+                  message:
+                    type: string
+                    example: Order created successfully.
+                  success:
+                    type: boolean
+                    example: true
+              examples:
+                OrderCreation:
+                  value:
+                    data:
+                      clientOrderId: 8984810
+                      orderId: 485888
+                      status: new
+                    message: Order created successfully.
+                    success: true
+  /v1/api/external/generateToken:
+    post:
+      summary: Generate Token
+      description: >-
+        **Endpoint:**  
+
+        `POST https://api.shipexindia.com/v1/api/external/generateToken`
+
+
+        **Description:**
+
+
+        This API authenticates a user using their email and password, and
+        returns a **JWT token**. The token must be included in the
+        `Authorization` header (`Bearer` ) for all further requests.
+
+
+        **Headers:**
+
+
+        - `Content-Type: application/json`
+            
+
+        Request Body:
+
+
+        {  
+
+        "email": "[test@gmail.com](https://mailto:test@gmail.com)",  
+
+        "password": "test@1212"  
+
+        }
+
+
+        Response (Success 200):
+
+
+        {  
+
+        "success": true,  
+
+        "message": "Token generated successfully",  
+
+        "data": {  
+
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6..."  
+
+        }  
+
+        }
+
+
+        Error Responses:
+
+
+        - 401 Unauthorized
+            
+
+        {  
+
+        "success": false,  
+
+        "message": "Invalid email or password"  
+
+        }
+
+
+        - 500 Internal Server Error
+            
+
+        {  
+
+        "success": false,  
+
+        "message": "Something went wrong"  
+
+        }
+      operationId: generateToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: test@gmail.com
+                password:
+                  type: string
+                  example: test@1010
+            examples:
+              Generate Token:
+                value:
+                  email: test@gmail.com
+                  password: test@1010
+      responses:
+        '200':
+          description: Generate Token
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: '412'
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: >-
+                  default-src 'self';base-uri 'self';font-src 'self' https:
+                  data:;form-action 'self';frame-ancestors 'self';img-src 'self'
+                  data:;object-src 'none';script-src 'self';script-src-attr
+                  'none';style-src 'self' https:
+                  'unsafe-inline';upgrade-insecure-requests
+            Cross-Origin-Opener-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Cross-Origin-Resource-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Date:
+              schema:
+                type: string
+                example: Mon, 25 Aug 2025 08:09:23 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"19c-K42LzenfK9/n5lHa9f1EyacDdxw"
+            Origin-Agent-Cluster:
+              schema:
+                type: string
+                example: '?1'
+            Referrer-Policy:
+              schema:
+                type: string
+                example: no-referrer
+            Server:
+              schema:
+                type: string
+                example: nginx/1.26.3
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            X-DNS-Prefetch-Control:
+              schema:
+                type: string
+                example: 'off'
+            X-Download-Options:
+              schema:
+                type: string
+                example: noopen
+            X-Frame-Options:
+              schema:
+                type: string
+                example: SAMEORIGIN
+            X-Permitted-Cross-Domain-Policies:
+              schema:
+                type: string
+                example: none
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: '0'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        example: >-
+                          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg3N2NkODE0YjEzMGIzZjI1YTY0NzExIiwiZW1haWwiOiJiaGFuamFiaWpheWtldGFuQGdtYWlsLmNvbSIsImZ1bGxuYW1lIjoiQmlqYXkga2V0YW4gQmhhbmphIiwia3ljIjp0cnVlLCJpc0FkbWluIjp0cnVlLCJpc0VtcGxveWVlIjpmYWxzZX0sImlhdCI6MTc1NjEwOTM2MywiZXhwIjoxNzU2MTk1NzYzfQ.vfbrr_f0i7tifdTkAw2LHp3LaORQkOMsGfXI-GEiAK0
+                  message:
+                    type: string
+                    example: Token generated successfully
+                  success:
+                    type: boolean
+                    example: true
+              examples:
+                Generate Token:
+                  value:
+                    data:
+                      token: >-
+                        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg3N2NkODE0YjEzMGIzZjI1YTY0NzExIiwiZW1haWwiOiJiaGFuamFiaWpheWtldGFuQGdtYWlsLmNvbSIsImZ1bGxuYW1lIjoiQmlqYXkga2V0YW4gQmhhbmphIiwia3ljIjp0cnVlLCJpc0FkbWluIjp0cnVlLCJpc0VtcGxveWVlIjpmYWxzZX0sImlhdCI6MTc1NjEwOTM2MywiZXhwIjoxNzU2MTk1NzYzfQ.vfbrr_f0i7tifdTkAw2LHp3LaORQkOMsGfXI-GEiAK0
+                    message: Token generated successfully
+                    success: true
+  /v1/api/external/pincodeServiceability:
+    get:
+      summary: Pincode Serviceability
+      description: >-
+        **Endpoint:**  
+
+        `GET https://api.shipexindia.com/v1/api/external/pincodeServiceability`
+
+
+        **Description:**  
+          
+        This API checks whether a shipment can be serviced between a given
+        **pickup pincode** and **delivery pincode**, based on weight and payment
+        type.
+
+
+        **Headers:**
+
+
+        - `Content-Type: application/json`
+            
+        - `Authorization: Bearer`  
+              
+            Success Response (200 OK):  
+              
+            {  
+            "status": "success",  
+            "message": "Service available for these pincodes.",  
+            "serviceable": true,  
+            "pincodes": {  
+            "pickup": "756036",  
+            "delivery": "400001"  
+            }  
+            }
+            
+
+        Failure Response (400 Bad Request):  
+          
+        {  
+
+        "status": "failure",  
+
+        "message": "Invalid request data",  
+
+        "errors": \[  
+
+        "Pincode must be exactly 6 digits."  
+
+        \]  
+
+        }
+
+
+        **Error Responses:**
+
+
+        - **401 Unauthorized** – Missing or invalid token
+            
+        - **500 Internal Server Error** – Unexpected server issue
+            
+
+        ---
+
+
+        **Usage Notes:**
+
+
+        - Both `pickUpPincode` and `deliveryPincode` must be **6 digits**.
+            
+        - `paymentType` accepts only `COD` or `Prepaid`.
+            
+        - Use this API before creating an order to validate **serviceability**
+        between two locations.
+      operationId: pincodeServiceability
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                applicableWeight:
+                  type: number
+                  example: 2.5
+                declaredValue:
+                  type: number
+                  example: 5
+                deliveryPincode:
+                  type: string
+                  example: '400001'
+                paymentType:
+                  type: string
+                  example: COD
+                pickUpPincode:
+                  type: string
+                  example: '756036'
+            examples:
+              Pincode Serviceability:
+                value:
+                  applicableWeight: 2.5
+                  declaredValue: 5
+                  deliveryPincode: '400001'
+                  paymentType: COD
+                  pickUpPincode: '756036'
+      responses:
+        '200':
+          description: Pincode Serviceability
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: '140'
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: >-
+                  default-src 'self';base-uri 'self';font-src 'self' https:
+                  data:;form-action 'self';frame-ancestors 'self';img-src 'self'
+                  data:;object-src 'none';script-src 'self';script-src-attr
+                  'none';style-src 'self' https:
+                  'unsafe-inline';upgrade-insecure-requests
+            Cross-Origin-Opener-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Cross-Origin-Resource-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Date:
+              schema:
+                type: string
+                example: Mon, 25 Aug 2025 13:06:57 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"8c-ufG9IBgCpl80DKH4kb9Jeu0cKjs"
+            Origin-Agent-Cluster:
+              schema:
+                type: string
+                example: '?1'
+            Referrer-Policy:
+              schema:
+                type: string
+                example: no-referrer
+            Server:
+              schema:
+                type: string
+                example: nginx/1.26.3
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            X-DNS-Prefetch-Control:
+              schema:
+                type: string
+                example: 'off'
+            X-Download-Options:
+              schema:
+                type: string
+                example: noopen
+            X-Frame-Options:
+              schema:
+                type: string
+                example: SAMEORIGIN
+            X-Permitted-Cross-Domain-Policies:
+              schema:
+                type: string
+                example: none
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: '0'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Service available for these pincodes.
+                  pincodes:
+                    type: object
+                    properties:
+                      delivery:
+                        type: string
+                        example: '400001'
+                      pickup:
+                        type: string
+                        example: '756036'
+                  serviceable:
+                    type: boolean
+                    example: true
+                  status:
+                    type: string
+                    example: success
+              examples:
+                Pincode Serviceability:
+                  value:
+                    message: Service available for these pincodes.
+                    pincodes:
+                      delivery: '400001'
+                      pickup: '756036'
+                    serviceable: true
+                    status: success
+  /v1/api/external/serviceableCourierServices/rate:
+    get:
+      summary: Serviceable Courier Services with Rate
+      description: >-
+        **Endpoint:**  
+
+        `GET
+        https://api.shipexindia.com/v1/api/external/serviceableCourierServices/rate`
+
+
+        **Description:**  
+          
+        This API returns a list of **available courier partners with their
+        calculated rates, GST, and final charges** for a given `orderId`. It
+        helps merchants compare courier services and select the most
+        cost-effective option.
+
+
+        **Headers:**
+
+
+        - `Content-Type: application/json`
+            
+        - `Authorization: Bearer`
+            
+
+          
+        Success Response (200 OK):  
+          
+        {  
+
+        "status": "success",  
+
+        "message": "Rate calculation successful.",  
+
+        "data": \[  
+
+        {  
+
+        "courierServiceName": "Dtdc Surface",  
+
+        "courierId": "03",  
+
+        "codCharges": 0,  
+
+        "forward": {  
+
+        "charges": 50,  
+
+        "gst": 9,  
+
+        "finalCharges": 59  
+
+        },  
+
+        "serviceable": true  
+
+        },  
+
+        {  
+
+        "courierServiceName": "Bluedart Express",  
+
+        "courierId": "04",  
+
+        "codCharges": 0,  
+
+        "forward": {  
+
+        "charges": 59,  
+
+        "gst": 10.62,  
+
+        "finalCharges": 70  
+
+        },  
+
+        "serviceable": true  
+
+        }  
+
+        \]  
+
+        }
+
+
+        Failure Response (400 Bad Request):  
+          
+        {  
+
+        "status": "failure",  
+
+        "message": "Invalid orderId"  
+
+        }
+      operationId: serviceableCourierServicesWithRate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                orderId:
+                  type: string
+                  example: '338586'
+            examples:
+              Serviceable Courier Services with Rate:
+                value:
+                  orderId: '338586'
+      responses:
+        '200':
+          description: Serviceable Courier Services with Rate
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Encoding:
+              schema:
+                type: string
+                example: br
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: >-
+                  default-src 'self';base-uri 'self';font-src 'self' https:
+                  data:;form-action 'self';frame-ancestors 'self';img-src 'self'
+                  data:;object-src 'none';script-src 'self';script-src-attr
+                  'none';style-src 'self' https:
+                  'unsafe-inline';upgrade-insecure-requests
+            Cross-Origin-Opener-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Cross-Origin-Resource-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Date:
+              schema:
+                type: string
+                example: Mon, 25 Aug 2025 13:07:16 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"9a6-/IrVOcz4w8UMsizJ7VDl0qQb8bs"
+            Origin-Agent-Cluster:
+              schema:
+                type: string
+                example: '?1'
+            Referrer-Policy:
+              schema:
+                type: string
+                example: no-referrer
+            Server:
+              schema:
+                type: string
+                example: nginx/1.26.3
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            X-DNS-Prefetch-Control:
+              schema:
+                type: string
+                example: 'off'
+            X-Download-Options:
+              schema:
+                type: string
+                example: noopen
+            X-Frame-Options:
+              schema:
+                type: string
+                example: SAMEORIGIN
+            X-Permitted-Cross-Domain-Policies:
+              schema:
+                type: string
+                example: none
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: '0'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        codCharges:
+                          type: number
+                          example: 0
+                        courierId:
+                          type: string
+                          example: '03'
+                        courierServiceName:
+                          type: string
+                          example: Dtdc Surface
+                        forward:
+                          type: object
+                          properties:
+                            charges:
+                              type: number
+                              example: 50
+                            finalCharges:
+                              type: number
+                              example: 59
+                            gst:
+                              type: number
+                              example: 9
+                        serviceable:
+                          type: boolean
+                          example: true
+                    example:
+                      - codCharges: 0
+                        courierId: '03'
+                        courierServiceName: Dtdc Surface
+                        forward:
+                          charges: 50
+                          finalCharges: 59
+                          gst: 9
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '03'
+                        courierServiceName: Dtdc Surface 3KG
+                        forward:
+                          charges: 101
+                          finalCharges: 119
+                          gst: 18.18
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '03'
+                        courierServiceName: Dtdc Surface 5KG
+                        forward:
+                          charges: 194
+                          finalCharges: 229
+                          gst: 34.92
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '03'
+                        courierServiceName: Dtdc Surface 10KG
+                        forward:
+                          charges: 388
+                          finalCharges: 458
+                          gst: 69.84
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '03'
+                        courierServiceName: Dtdc Air
+                        forward:
+                          charges: 65
+                          finalCharges: 77
+                          gst: 11.7
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '02'
+                        courierServiceName: Delhivery Surface
+                        forward:
+                          charges: 56
+                          finalCharges: 66
+                          gst: 10.08
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '02'
+                        courierServiceName: Delhivery Surface 1KG
+                        forward:
+                          charges: 96
+                          finalCharges: 113
+                          gst: 17.28
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '02'
+                        courierServiceName: Delhivery Surface 2KG
+                        forward:
+                          charges: 149
+                          finalCharges: 176
+                          gst: 26.82
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '02'
+                        courierServiceName: Delhivery Surface 5KG
+                        forward:
+                          charges: 248
+                          finalCharges: 293
+                          gst: 44.64
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '02'
+                        courierServiceName: Delhivery Surface 10KG
+                        forward:
+                          charges: 388
+                          finalCharges: 458
+                          gst: 69.84
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '05'
+                        courierServiceName: Amazon Shipping
+                        forward:
+                          charges: 47
+                          finalCharges: 55
+                          gst: 8.46
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '05'
+                        courierServiceName: Amazon Shipping 1KG
+                        forward:
+                          charges: 64
+                          finalCharges: 76
+                          gst: 11.52
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '05'
+                        courierServiceName: 'Amazon Shipping 2KG '
+                        forward:
+                          charges: 98
+                          finalCharges: 116
+                          gst: 17.64
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '05'
+                        courierServiceName: Amazon Shipping 5KG
+                        forward:
+                          charges: 200
+                          finalCharges: 236
+                          gst: 36
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '05'
+                        courierServiceName: Amazon Shipping 10KG
+                        forward:
+                          charges: 270
+                          finalCharges: 319
+                          gst: 48.6
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '04'
+                        courierServiceName: Bluedart Express
+                        forward:
+                          charges: 59
+                          finalCharges: 70
+                          gst: 10.62
+                        serviceable: true
+                  message:
+                    type: string
+                    example: Rate calculation successful.
+                  status:
+                    type: string
+                    example: success
+              examples:
+                Serviceable Courier Services with Rate:
+                  value:
+                    data:
+                      - codCharges: 0
+                        courierId: '03'
+                        courierServiceName: Dtdc Surface
+                        forward:
+                          charges: 50
+                          finalCharges: 59
+                          gst: 9
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '03'
+                        courierServiceName: Dtdc Surface 3KG
+                        forward:
+                          charges: 101
+                          finalCharges: 119
+                          gst: 18.18
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '03'
+                        courierServiceName: Dtdc Surface 5KG
+                        forward:
+                          charges: 194
+                          finalCharges: 229
+                          gst: 34.92
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '03'
+                        courierServiceName: Dtdc Surface 10KG
+                        forward:
+                          charges: 388
+                          finalCharges: 458
+                          gst: 69.84
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '03'
+                        courierServiceName: Dtdc Air
+                        forward:
+                          charges: 65
+                          finalCharges: 77
+                          gst: 11.7
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '02'
+                        courierServiceName: Delhivery Surface
+                        forward:
+                          charges: 56
+                          finalCharges: 66
+                          gst: 10.08
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '02'
+                        courierServiceName: Delhivery Surface 1KG
+                        forward:
+                          charges: 96
+                          finalCharges: 113
+                          gst: 17.28
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '02'
+                        courierServiceName: Delhivery Surface 2KG
+                        forward:
+                          charges: 149
+                          finalCharges: 176
+                          gst: 26.82
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '02'
+                        courierServiceName: Delhivery Surface 5KG
+                        forward:
+                          charges: 248
+                          finalCharges: 293
+                          gst: 44.64
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '02'
+                        courierServiceName: Delhivery Surface 10KG
+                        forward:
+                          charges: 388
+                          finalCharges: 458
+                          gst: 69.84
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '05'
+                        courierServiceName: Amazon Shipping
+                        forward:
+                          charges: 47
+                          finalCharges: 55
+                          gst: 8.46
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '05'
+                        courierServiceName: Amazon Shipping 1KG
+                        forward:
+                          charges: 64
+                          finalCharges: 76
+                          gst: 11.52
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '05'
+                        courierServiceName: 'Amazon Shipping 2KG '
+                        forward:
+                          charges: 98
+                          finalCharges: 116
+                          gst: 17.64
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '05'
+                        courierServiceName: Amazon Shipping 5KG
+                        forward:
+                          charges: 200
+                          finalCharges: 236
+                          gst: 36
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '05'
+                        courierServiceName: Amazon Shipping 10KG
+                        forward:
+                          charges: 270
+                          finalCharges: 319
+                          gst: 48.6
+                        serviceable: true
+                      - codCharges: 0
+                        courierId: '04'
+                        courierServiceName: Bluedart Express
+                        forward:
+                          charges: 59
+                          finalCharges: 70
+                          gst: 10.62
+                        serviceable: true
+                    message: Rate calculation successful.
+                    status: success
+  /v1/api/external/orderBooking:
+    post:
+      summary: order booking
+      description: >-
+        **Endpoint:**  
+
+        `POST https://api.shipexindia.com/v1/api/external/orderBooking`
+
+
+        **Description:**  
+          
+        This API is used to **book an order with a courier partner** after it
+        has been created. It validates the order, checks available courier
+        rates, ensures sufficient wallet balance, and then books the shipment
+        with the selected courier.
+
+
+        ---
+
+
+        ### 🔑 Headers
+
+
+        - `Content-Type: application/json`
+            
+        - `Authorization: Bearer`
+            
+
+          
+          
+        Success Response (200 OK):  
+          
+        {  
+
+        "status": "success",  
+
+        "message": "Order booked and shipment created successfully.",  
+
+        "data": {  
+
+        "orderId": "338586",  
+
+        "courierServiceName": "Delhivery Surface",  
+
+        "courierId": "02",  
+
+        "awb_number": "DEL123456789",  
+
+        "labelUrl":
+        "[https://shipx.s3.amazonaws.com/labels/DEL123456789.pdf"](https://shipx.s3.amazonaws.com/labels/DEL123456789.pdf)  
+
+        }  
+
+        }
+
+
+        ### Failure Responses
+
+
+        **Invalid Request Data (400):**
+
+          
+          
+        {  
+
+        "status": "failure",  
+
+        "message": "Invalid request data",  
+
+        "errors": \[  
+
+        "Order ID is required",  
+
+        "Courier Service Name is required"  
+
+        \]  
+
+        }
+
+
+        Order Not Found (404):  
+          
+        {  
+
+        "status": "failure",  
+
+        "message": "Order with ID 338586 not found."  
+
+        }StartFragmentUnexpected Error (500):EndFragment  
+          
+        {  
+
+        "status": "failure",  
+
+        "message": "Unexpected server error while booking order. Please try
+        again."  
+
+        }
+
+
+        - Must pass a valid `orderId` from **Create Order API**.
+            
+        - Courier details (`courierServiceName` and `courierId`) must match
+        those returned by the **Serviceable Courier Services with Rate API**.
+            
+        - Wallet balance must be **greater than or equal to final shipping
+        charges**.
+            
+        - Returns AWB number and shipping label URL on success.
+      operationId: orderBooking
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                courierId:
+                  type: string
+                  example: '03'
+                courierServiceName:
+                  type: string
+                  example: Dtdc Surface
+                orderId:
+                  type: string
+                  example: '338586'
+            examples:
+              order booking:
+                value:
+                  courierId: '03'
+                  courierServiceName: Dtdc Surface
+                  orderId: '338586'
+      responses:
+        '200':
+          description: order booking
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: '204'
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: >-
+                  default-src 'self';base-uri 'self';font-src 'self' https:
+                  data:;form-action 'self';frame-ancestors 'self';img-src 'self'
+                  data:;object-src 'none';script-src 'self';script-src-attr
+                  'none';style-src 'self' https:
+                  'unsafe-inline';upgrade-insecure-requests
+            Cross-Origin-Opener-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Cross-Origin-Resource-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Date:
+              schema:
+                type: string
+                example: Mon, 25 Aug 2025 13:08:25 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"cc-OSCSeQRrMt8NKDCe55nXPhTF9SM"
+            Origin-Agent-Cluster:
+              schema:
+                type: string
+                example: '?1'
+            Referrer-Policy:
+              schema:
+                type: string
+                example: no-referrer
+            Server:
+              schema:
+                type: string
+                example: nginx/1.26.3
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            X-DNS-Prefetch-Control:
+              schema:
+                type: string
+                example: 'off'
+            X-Download-Options:
+              schema:
+                type: string
+                example: noopen
+            X-Frame-Options:
+              schema:
+                type: string
+                example: SAMEORIGIN
+            X-Permitted-Cross-Domain-Policies:
+              schema:
+                type: string
+                example: none
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: '0'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      awb_number:
+                        type: string
+                        example: 7D113288136
+                      courierId:
+                        type: string
+                        example: '03'
+                      courierServiceName:
+                        type: string
+                        example: Dtdc Surface
+                      labelUrl:
+                        nullable: true
+                        example: null
+                      orderId:
+                        type: string
+                        example: '338586'
+                  message:
+                    type: string
+                    example: Order booked and shipment created successfully.
+                  status:
+                    type: string
+                    example: success
+              examples:
+                order booking:
+                  value:
+                    data:
+                      awb_number: 7D113288136
+                      courierId: '03'
+                      courierServiceName: Dtdc Surface
+                      labelUrl: null
+                      orderId: '338586'
+                    message: Order booked and shipment created successfully.
+                    status: success
+  /v1/api/external/cancelledOrder/7D113288136:
+    post:
+      summary: Cancelled Booking
+      description: >-
+        **Endpoint:**  
+
+        `POST
+        https://api.shipexindia.com/v1/api/external/cancelledOrder/:awb_number`
+
+
+        **Description:**  
+          
+        This API is used to **cancel a booked order shipment** using its **AWB
+        number**. On successful cancellation, the order status is updated and
+        freight charges (if any) are refunded back to the user’s wallet.
+
+
+        ---
+
+
+        ### 🔑 Headers
+
+
+        - `Content-Type: application/json`
+            
+        - `Authorization: Bearer`
+            
+
+        **Example:**  
+
+        `https://api.shipexindia.com/v1/api/external/cancelledOrder/7D113288118`
+
+
+        ---
+
+
+        ### Request Body
+
+
+        None  
+
+        Success Response (200 OK):  
+
+        {  
+
+        "success": true,  
+
+        "message": "Order cancelled successfully"  
+
+        }
+
+
+        Failure Responses  
+
+        Missing AWB Number (400):  
+
+        {  
+
+        "error": "AWB number is required in params"  
+
+        }
+
+
+        Order Not Found (404):  
+
+        {  
+
+        "error": "Order with AWB number 7D113288118 not found."  
+
+        }
+
+
+        **Internal Server Error (500):**
+
+
+        {  
+
+        "error": "An internal error occurred while cancelling the order."  
+
+        }
+
+
+        ### Notes
+
+
+        - Only orders with status **"Ready To Ship"** can be cancelled.
+            
+        - Orders with status `"Cancelled"` or `"new"` **cannot** be cancelled
+        again.
+            
+        - On successful cancellation:
+            
+            - Order status is updated.
+                
+            - Wallet is credited back with freight charges (if applicable).
+                
+            - Tracking history is updated with a `"Cancelled"` status.
+      operationId: cancelledBooking
+      requestBody:
+        content:
+          text/plain:
+            examples:
+              Cancelled Booking:
+                value: ''
+      responses:
+        '200':
+          description: Cancelled Booking
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: '57'
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: >-
+                  default-src 'self';base-uri 'self';font-src 'self' https:
+                  data:;form-action 'self';frame-ancestors 'self';img-src 'self'
+                  data:;object-src 'none';script-src 'self';script-src-attr
+                  'none';style-src 'self' https:
+                  'unsafe-inline';upgrade-insecure-requests
+            Cross-Origin-Opener-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Cross-Origin-Resource-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Date:
+              schema:
+                type: string
+                example: Mon, 25 Aug 2025 13:11:02 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"39-E16ddvkR/k3D6bIZq+QkAldDa5Y"
+            Origin-Agent-Cluster:
+              schema:
+                type: string
+                example: '?1'
+            Referrer-Policy:
+              schema:
+                type: string
+                example: no-referrer
+            Server:
+              schema:
+                type: string
+                example: nginx/1.26.3
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            X-DNS-Prefetch-Control:
+              schema:
+                type: string
+                example: 'off'
+            X-Download-Options:
+              schema:
+                type: string
+                example: noopen
+            X-Frame-Options:
+              schema:
+                type: string
+                example: SAMEORIGIN
+            X-Permitted-Cross-Domain-Policies:
+              schema:
+                type: string
+                example: none
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: '0'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Order cancelled successfully
+                  success:
+                    type: boolean
+                    example: true
+              examples:
+                Cancelled Booking:
+                  value:
+                    message: Order cancelled successfully
+                    success: true
+  /v1/api/external/trackOrder/7D113288136:
+    get:
+      summary: Track Order
+      description: >-
+        **Endpoint:**  
+
+        `GET https://api.shipexindia.com/v1/api/external/trackOrder/:awb_number`
+
+
+        **Description:**  
+          
+        This API allows users to **track their shipment** using an **AWB
+        number**. It returns the current order details and the complete tracking
+        history.
+
+
+        ---
+
+
+        ### 🔑 Headers
+
+
+        - `Content-Type: application/json`
+            
+        - `Authorization: Bearer`  
+              
+            **Example:**  
+            `https://api.shipexindia.com/v1/api/external/trackOrder/I75009044`  
+              
+            Success Response (200 OK)  
+              
+            {  
+            "success": true,  
+            "data": {  
+            "awb_number": "I75009044",  
+            "orderId": "338586",  
+            "status": "In Transit",  
+            "courierServiceName": "Delhivery Surface",  
+            "tracking": \[  
+            {  
+            "status": "Order Booked",  
+            "location": "Mumbai",  
+            "dateTime": "2025-08-23T10:15:00Z",  
+            "instructions": "Shipment created"  
+            },  
+            {  
+            "status": "Dispatched",  
+            "location": "Mumbai Hub",  
+            "dateTime": "2025-08-23T18:30:00Z",  
+            "instructions": "Left origin facility"  
+            },  
+            {  
+            "status": "In Transit",  
+            "location": "Delhi",  
+            "dateTime": "2025-08-24T12:10:00Z",  
+            "instructions": "Arrived at destination hub"  
+            }  
+            \]  
+            }  
+            }
+            
+
+        Failure Responses  
+
+        Order Not Found or Unauthorized (404):  
+          
+        {  
+
+        "success": false,  
+
+        "message": "Order not found or you don't have access to this order"  
+
+        }
+
+
+        Internal Server Error (500):  
+          
+        {  
+
+        "success": false,  
+
+        "message": "Internal server error"  
+
+        }
+
+
+        Notes
+
+
+        - API ensures that **only the owner of the order** (based on `userId`)
+        can track it.
+            
+        - Tracking data includes:
+            
+            - `status` → Current shipment state
+                
+            - `location` → Facility/City where the scan happened
+                
+            - `dateTime` → Event timestamp
+                
+            - `instructions` → Courier remarks
+                
+        - If no tracking events exist, `"tracking": []` will be returned.
+      operationId: trackOrder
+      requestBody:
+        content:
+          text/plain:
+            examples:
+              Track Order:
+                value: ''
+      responses:
+        '200':
+          description: Track Order
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: '598'
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: >-
+                  default-src 'self';base-uri 'self';font-src 'self' https:
+                  data:;form-action 'self';frame-ancestors 'self';img-src 'self'
+                  data:;object-src 'none';script-src 'self';script-src-attr
+                  'none';style-src 'self' https:
+                  'unsafe-inline';upgrade-insecure-requests
+            Cross-Origin-Opener-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Cross-Origin-Resource-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Date:
+              schema:
+                type: string
+                example: Mon, 25 Aug 2025 13:12:05 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"256-BLximYngk3LyYTHnxrLL8Y1XQLc"
+            Origin-Agent-Cluster:
+              schema:
+                type: string
+                example: '?1'
+            Referrer-Policy:
+              schema:
+                type: string
+                example: no-referrer
+            Server:
+              schema:
+                type: string
+                example: nginx/1.26.3
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            X-DNS-Prefetch-Control:
+              schema:
+                type: string
+                example: 'off'
+            X-Download-Options:
+              schema:
+                type: string
+                example: noopen
+            X-Frame-Options:
+              schema:
+                type: string
+                example: SAMEORIGIN
+            X-Permitted-Cross-Domain-Policies:
+              schema:
+                type: string
+                example: none
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: '0'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      awb_number:
+                        type: string
+                        example: 7D113288136
+                      courierServiceName:
+                        type: string
+                        example: Dtdc Surface
+                      orderId:
+                        type: number
+                        example: 338586
+                      status:
+                        type: string
+                        example: new
+                      tracking:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            dateTime:
+                              type: string
+                              example: '2025-08-18T18:10:00.000Z'
+                            instructions:
+                              type: string
+                              example: Softdata Upload
+                            location:
+                              type: string
+                              example: BALASORE BRANCH
+                            status:
+                              type: string
+                              example: SPL
+                        example:
+                          - dateTime: '2025-08-18T18:10:00.000Z'
+                            instructions: Softdata Upload
+                            location: BALASORE BRANCH
+                            status: SPL
+                          - dateTime: '2025-08-21T11:26:59.782Z'
+                            instructions: Cancelled order by user
+                            location: ''
+                            status: Cancelled
+                          - dateTime: '2025-08-21T11:29:01.387Z'
+                            instructions: Cancelled order by user
+                            location: ''
+                            status: Cancelled
+                          - dateTime: '2025-08-25T13:11:02.613Z'
+                            instructions: Cancelled order by user
+                            location: ''
+                            status: Cancelled
+                  success:
+                    type: boolean
+                    example: true
+              examples:
+                Track Order:
+                  value:
+                    data:
+                      awb_number: 7D113288136
+                      courierServiceName: Dtdc Surface
+                      orderId: 338586
+                      status: new
+                      tracking:
+                        - dateTime: '2025-08-18T18:10:00.000Z'
+                          instructions: Softdata Upload
+                          location: BALASORE BRANCH
+                          status: SPL
+                        - dateTime: '2025-08-21T11:26:59.782Z'
+                          instructions: Cancelled order by user
+                          location: ''
+                          status: Cancelled
+                        - dateTime: '2025-08-21T11:29:01.387Z'
+                          instructions: Cancelled order by user
+                          location: ''
+                          status: Cancelled
+                        - dateTime: '2025-08-25T13:11:02.613Z'
+                          instructions: Cancelled order by user
+                          location: ''
+                          status: Cancelled
+                    success: true
+  /v1/api/external/exceptionList:
+    get:
+      summary: NDR/Exception List
+      description: >-
+        **Endpoint:**  
+
+        `GET https://api.shipexindia.com/v1/api/external/exceptionList`
+
+
+        **Description:**  
+          
+        This API retrieves the list of **undelivered (exception) orders** for a
+        given user.  
+          
+        It includes orders stuck in **NDR (Non-Delivery Report)** status with
+        details like reason, remarks, and attempt history.
+
+
+        ---
+
+
+        ### 🔑 Headers
+
+
+        - `Content-Type: application/json`
+            
+        - `Authorization: Bearer`
+            
+
+          
+        Success Response (200 OK)  
+          
+        {  
+
+        "success": true,  
+
+        "count": 2,  
+
+        "data": \[  
+
+        {  
+
+        "awb_number": "I75009044",  
+
+        "courier": "Delhivery",  
+
+        "date": "2025-08-23T10:15:00Z",  
+
+        "remark": "Customer not available",  
+
+        "attemptCount": 2  
+
+        },  
+
+        {  
+
+        "awb_number": "D75001123",  
+
+        "courier": "DTDC",  
+
+        "date": "2025-08-22T15:45:00Z",  
+
+        "remark": "Incorrect address",  
+
+        "attemptCount": 1  
+
+        }  
+
+        \]  
+
+        }
+
+
+        ### Failure Responses
+
+
+        **No Exceptions Found (404):**  
+          
+        {  
+
+        "success": false,  
+
+        "message": "No exception found for this user"  
+
+        }
+
+
+        Internal Server Error (500):  
+          
+        {  
+
+        "success": false,  
+
+        "message": "Internal server error"  
+
+        }
+
+
+        ### Notes
+
+
+        - Only orders with **status = "Undelivered"** are considered exceptions.
+            
+        - Response fields:
+            
+            - `awb_number` → Shipment AWB number
+                
+            - `courier` → Courier partner handling the order
+                
+            - `date` → Date of last NDR remark
+                
+            - `remark` → Reason for non-delivery (e.g., _Customer not available, Wrong address_)
+                
+            - `attemptCount` → Number of reattempts in `ndrHistory`
+      operationId: ndrExceptionList
+      requestBody:
+        content:
+          text/plain:
+            examples:
+              NDR/Exception List:
+                value: ''
+      responses:
+        '200':
+          description: NDR/Exception List
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: '180'
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: >-
+                  default-src 'self';base-uri 'self';font-src 'self' https:
+                  data:;form-action 'self';frame-ancestors 'self';img-src 'self'
+                  data:;object-src 'none';script-src 'self';script-src-attr
+                  'none';style-src 'self' https:
+                  'unsafe-inline';upgrade-insecure-requests
+            Cross-Origin-Opener-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Cross-Origin-Resource-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Date:
+              schema:
+                type: string
+                example: Mon, 25 Aug 2025 13:18:42 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"b4-JqjTKi5uov7T5BU8wCXB2rPQ6N8"
+            Origin-Agent-Cluster:
+              schema:
+                type: string
+                example: '?1'
+            Referrer-Policy:
+              schema:
+                type: string
+                example: no-referrer
+            Server:
+              schema:
+                type: string
+                example: nginx/1.26.3
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            X-DNS-Prefetch-Control:
+              schema:
+                type: string
+                example: 'off'
+            X-Download-Options:
+              schema:
+                type: string
+                example: noopen
+            X-Frame-Options:
+              schema:
+                type: string
+                example: SAMEORIGIN
+            X-Permitted-Cross-Domain-Policies:
+              schema:
+                type: string
+                example: none
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: '0'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: number
+                    example: 2
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        attemptCount:
+                          type: number
+                          example: 0
+                        awb_number:
+                          type: string
+                          example: 7D113288136
+                        date:
+                          nullable: true
+                          example: null
+                        remark:
+                          nullable: true
+                          example: null
+                    example:
+                      - attemptCount: 0
+                        awb_number: 7D113288136
+                        date: null
+                        remark: null
+                      - attemptCount: 0
+                        awb_number: '362532727115'
+                        date: null
+                        remark: null
+                  success:
+                    type: boolean
+                    example: true
+              examples:
+                NDR/Exception List:
+                  value:
+                    count: 2
+                    data:
+                      - attemptCount: 0
+                        awb_number: 7D113288136
+                        date: null
+                        remark: null
+                      - attemptCount: 0
+                        awb_number: '362532727115'
+                        date: null
+                        remark: null
+                    success: true
+  /v1/api/external/ndr/create:
+    post:
+      summary: Create NDR/Exception
+      description: >-
+        **Endpoint:**  
+
+        `POST https://api.shipexindia.com/v1/api/external/ndr/create`
+
+
+        **Description:**  
+          
+        This API allows the client to create an **NDR (Non-Delivery Report) /
+        Exception request** for an undelivered shipment.  
+          
+        The request can trigger either a **Reattempt delivery** or an **RTO
+        (Return to Origin)** action, depending on the courier.
+
+
+        ---
+
+
+        ### 🔑 Headers
+
+
+        - `Content-Type: application/json`
+            
+        - `Authorization: Bearer`
+            
+
+          
+          
+        Success Response (200 OK)  
+          
+        {  
+
+        "success": true,  
+
+        "message": "NDR request processed successfully",  
+
+        "data": {  
+
+        "awb_number": "I75009044",  
+
+        "action": "RE-ATTEMPT",  
+
+        "courierId": "02",  
+
+        "status": "Accepted"  
+
+        }  
+
+        }
+
+
+        ### Failure Responses
+
+
+        **Missing Required Fields (400):**  
+          
+        {  
+
+        "success": false,  
+
+        "message": "courierId and awb_number are required"  
+
+        }
+
+
+        Invalid Action (400):  
+          
+        {  
+
+        "success": false,  
+
+        "message": "Invalid action. Allowed values are 'RE-ATTEMPT' or 'RTO'."  
+
+        }
+
+
+        Order Not Found (404):  
+          
+        {  
+
+        "success": false,  
+
+        "message": "No pending delivery found for the provided AWB number.
+        Reattempt or RTO cannot be initiated."  
+
+        }
+
+
+        Internal Server Error (500):  
+
+        {  
+
+        "success": false,  
+
+        "message": "Internal server error while processing NDR"  
+
+        }
+
+
+        Notes
+
+
+        - **Allowed actions:** `RE-ATTEMPT` (retry delivery) or `RTO` (return to
+        origin).
+            
+        - Ensure order status is `"Undelivered"` before initiating NDR.
+      operationId: createNdrException
+      requestBody:
+        content:
+          text/plain:
+            examples:
+              Create NDR/Exception:
+                value: "{\r\n  \"courierId\": \"05\",\r\n  \"awb_number\": \"AMZ1234567890\",\r\n  \"action\": \"RE-ATTEMPT\",//[\"RE-ATTEMPT\",\"RTO\"]\r\n  \"comments\": \"Customer asked to reattempt on next business day\",\r\n  \"scheduled_delivery_date\": \"2025-08-25\",\r\n  \"next_attempt_date\": \"2025-08-25\",\r\n  \"phone\": \"9876543210\"\r\n}\r\n\r\n"
+      responses:
+        '200':
+          description: ''
+tags: []
